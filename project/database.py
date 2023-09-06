@@ -1,6 +1,6 @@
 import hashlib
 import datetime
-from peewee import MySQLDatabase
+from peewee import MySQLDatabase, Model, CharField, DateTimeField, ForeignKeyField, TextField, IntegerField
 from local_settings import USER_DATABASE, PASSWORD_DATABASE
 
 database = MySQLDatabase('fastapi_project',
