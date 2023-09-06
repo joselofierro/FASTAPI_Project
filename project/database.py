@@ -1,13 +1,13 @@
 import hashlib
-
 import datetime
-from peewee import *
+from peewee import MySQLDatabase
+from local_settings import USER_DATABASE, PASSWORD_DATABASE
 
-database = MySQLDatabase('fastapi_project', 
-        user='root',
-        password='DATABASEPASSWORD',
-        host='localhost',
-        port=3306)
+database = MySQLDatabase('fastapi_project',
+                         user=USER_DATABASE,
+                         password=PASSWORD_DATABASE,
+                         host='localhost',
+                         port=3306)
 
 
 class User(Model):
@@ -19,7 +19,6 @@ class User(Model):
         database = database
         table_name = 'users'
 
-
     @classmethod
     def create_password(cls, password):
         h = hashlib.md5()
@@ -27,14 +26,12 @@ class User(Model):
 
         return h.hexdigest()
 
-
     @classmethod
     def authenticate(cls, username, password):
         user = cls.select().where(User.username == username).first()
 
         if user and user.password == User.create_password(password):
             return user
-
 
     def __str__(self):
         return self.username
